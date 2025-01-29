@@ -1,0 +1,50 @@
+import express from "express"
+const app = express()
+import mongoose from 'mongoose'
+import userRouter from "./routes/user.route.js"
+import tempRouter from "./routes/temp.route.js"
+import cors from "cors"
+
+app.use(cors())
+const allowedOrigins = [
+    'http://localhost:3000',
+    'https://temp-count-app.vercel.app',
+  ];
+app.use(
+    cors({
+      origin: allowedOrigins,
+  
+      methods: ["GET", "POST", "PUT", "DELETE"], // Allow specific HTTP methods
+      credentials: true, // Allow cookies and credentials
+    })
+  );
+
+  app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin',  'https://temp-count-app.vercel.app/'); // Allow specific frontend origin
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'); // Allow necessary methods
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type'); // Allow necessary headers
+    res.setHeader('Access-Control-Allow-Credentials', 'true'); // Allow credentials
+    next();
+});
+
+app.use(express.json())
+app.use(express.urlencoded({extended:true}))
+
+
+mongoose.connect('mongodb://localhost:27017/').then(()=>{
+    console.log("DB connected");
+}).catch((err)=>{
+    console.log(err);
+}
+)
+
+app.use('/api/user', userRouter)
+app.use('/api/temp', tempRouter)
+
+
+
+
+app.listen(process.env.PORT || 3000,()=>{
+    console.log("server is running on port 3000");
+    
+})
