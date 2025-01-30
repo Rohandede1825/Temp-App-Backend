@@ -6,12 +6,15 @@ import tempRouter from "./routes/temp.route.js"
 import cors from "cors"
 import dotenv from 'dotenv'
 dotenv.config()
-app.use(cors())
+
+
+
 
 const allowedOrigins = [
   'https://temp-count-app.vercel.app',
   'http://localhost:5173/',
   ];
+
 app.use(
     cors({
       origin: allowedOrigins,
@@ -21,7 +24,7 @@ app.use(
   );
 
   app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin',  'https://temp-count-app.vercel.app/'); 
+    res.setHeader('Access-Control-Allow-Origin',  'https://temp-count-app.vercel.app'); 
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'); 
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type'); 
     res.setHeader('Access-Control-Allow-Credentials', 'true');
