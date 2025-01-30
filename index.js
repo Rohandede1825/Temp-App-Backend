@@ -4,7 +4,8 @@ import mongoose from 'mongoose'
 import userRouter from "./routes/user.route.js"
 import tempRouter from "./routes/temp.route.js"
 import cors from "cors"
-
+import dotenv from 'dotenv'
+dotenv.config()
 app.use(cors())
 const allowedOrigins = [
     'http://localhost:3000',
@@ -31,12 +32,18 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
 
-mongoose.connect('mongodb://localhost:27017/').then(()=>{
-    console.log("DB connected");
-}).catch((err)=>{
-    console.log(err);
-}
-)
+// mongoose.connect(`${process.env.MONGO_URL}`).then(()=>{
+//     console.log("DB connected");
+// }).catch((err)=>{
+//     console.log(err);
+// }
+// )
+
+
+mongoose.connect(process.env.MONGO_URL)
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((err) => console.error("Error connecting to MongoDB:", err));
+
 
 app.use('/api/user', userRouter)
 app.use('/api/temp', tempRouter)
