@@ -8,8 +8,8 @@ import dotenv from 'dotenv'
 dotenv.config()
 app.use(cors())
 const allowedOrigins = [
-    'http://localhost:3000',
-    'https://temp-count-app.vercel.app',
+  'https://temp-count-app.vercel.app',
+  'http://localhost:5173/',
   ];
 app.use(
     cors({
