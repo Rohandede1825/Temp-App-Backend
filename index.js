@@ -7,25 +7,29 @@ import cors from "cors"
 import dotenv from 'dotenv'
 dotenv.config()
 app.use(cors())
+
 const allowedOrigins = [
-  'https://temp-count-app.vercel.app',
-  'http://localhost:5173/',
-  ];
+  "http://localhost:5173", // Local frontend
+  "https://temp-count-app.vercel.app", // Deployed frontend
+];
 app.use(
     cors({
-      origin: allowedOrigins,
-  
-      methods: ["GET", "POST", "PUT", "DELETE"], // Allow specific HTTP methods
-      credentials: true, // Allow cookies and credentials
-    })
-  );
+      origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+          callback(null, true);
+        } else {
+          callback(new Error("CORS policy does not allow this origin!"));
+        }
+      },
+      methods: ["GET", "POST", "PUT", "DELETE"], 
+      credentials: true, 
+  }));
 
   app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin',  'https://temp-count-app.vercel.app/'); // Allow specific frontend origin
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'); // Allow necessary methods
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type'); // Allow necessary headers
-    res.setHeader('Access-Control-Allow-Credentials', 'true'); // Allow credentials
-    next();
+    res.setHeader('Access-Control-Allow-Origin',  'https://temp-count-app.vercel.app/'); 
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'); 
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type'); 
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
 });
 
 app.use(express.json())
