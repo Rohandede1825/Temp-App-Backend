@@ -1,0 +1,8 @@
+{
+  "message": "File uploaded successfully",
+  "data": [
+      { "time": "2025-01-30 10:00", "temperature": 22.5 },
+      { "time": "2025-01-30 11:00", "temperature": 23.1 },
+      { "time": "2025-01-30 12:00", "temperature": 24.0 }
+  ]
+}

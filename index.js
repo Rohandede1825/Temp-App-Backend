@@ -5,6 +5,8 @@ import userRouter from "./routes/user.route.js"
 import tempRouter from "./routes/temp.route.js"
 import cors from "cors"
 import dotenv from 'dotenv'
+import tempRoutes from "./routes/tempShow.js"
+
 dotenv.config()
 
 
@@ -50,6 +52,10 @@ mongoose.connect(process.env.MONGO_URL)
 
 app.use('/api/user', userRouter)
 app.use('/api/temp', tempRouter)
+
+app.use('/api/temperature', tempRoutes);
+
+
 
 
 
