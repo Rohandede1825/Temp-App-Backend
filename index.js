@@ -13,7 +13,7 @@ dotenv.config()
 
 
 const allowedOrigins = [
-  'https://script-assist-alpha.vercel.app',
+  'https://script-assist-alpha.vercel.appppp',
   ];
 
 app.use(
@@ -25,7 +25,7 @@ app.use(
   );
 
   app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin',  'https://script-assist-alpha.vercel.app'); 
+    res.setHeader('Access-Control-Allow-Origin',  'https://script-assist-alpha.vercel.appppp'); 
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'); 
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type'); 
     res.setHeader('Access-Control-Allow-Credentials', 'true');
