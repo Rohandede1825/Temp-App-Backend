@@ -1,63 +1,65 @@
-import express from "express";
-import mongoose from "mongoose";
-import cors from "cors";
-import dotenv from "dotenv";
+import express from "express"
+const app = express()
+import mongoose from 'mongoose'
+import userRouter from "./routes/user.route.js"
+import tempRouter from "./routes/temp.route.js"
+import cors from "cors"
+import dotenv from 'dotenv'
+import tempRoutes from "./routes/tempShow.js"
 
-import userRouter from "./routes/user.route.js";
-import tempRouter from "./routes/temp.route.js";
-import tempRoutes from "./routes/tempShow.js";
+dotenv.config()
 
-dotenv.config();
 
-const app = express();
 
-// Define allowed origins
+
 const allowedOrigins = [
-  "https://script-assist-alpha.vercel.app",
-];
+  'https://script-assist-alpha.vercel.app',
+  ];
 
-// CORS configuration
 app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true,
-  })
-);
+    cors({
+      origin: allowedOrigins,
+      methods: ["GET", "POST", "PUT", "DELETE"], // Allow specific HTTP methods
+      credentials: true, // Allow cookies and credentials
+    })
+  );
 
-// Handle preflight requests
-app.options("*", (req, res) => {
-  res.header("Access-Control-Allow-Origin", "https://script-assist-alpha.vercel.app");
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  res.header("Access-Control-Allow-Credentials", "true");
-  res.sendStatus(204);
+  app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin',  'https://script-assist-alpha.vercel.app'); 
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'); 
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type'); 
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    next();
 });
 
-// Middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json())
+app.use(express.urlencoded({extended:true}))
 
-// Database connection
-mongoose
-  .connect(process.env.MONGO_URL)
+
+// mongoose.connect(`${process.env.MONGO_URL}`).then(()=>{
+//     console.log("DB connected");
+// }).catch((err)=>{
+//     console.log(err);
+// }
+// )
+
+
+mongoose.connect(process.env.MONGO_URL)
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("Error connecting to MongoDB:", err));
 
-// API Routes
-app.use("/api/user", userRouter);
-app.use("/api/temp", tempRouter);
-app.use("/api/temperature", tempRoutes);
 
-// Start server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+app.use('/api/user', userRouter)
+app.use('/api/temp', tempRouter)
+
+app.use('/api/temperature', tempRoutes);
+
+
+
+
+
+
+app.listen(process.env.PORT || 3000,()=>{
+    console.log("server is running on port 3000");
+    
+})
