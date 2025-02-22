@@ -15,6 +15,7 @@ dotenv.config()
 const allowedOrigins = [
   'https://temp-count-app.vercel.app',
   'http://localhost:5173/',
+  'http://localhost:5175/',
   ];
 
 app.use(
