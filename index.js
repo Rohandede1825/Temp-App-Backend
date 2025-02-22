@@ -14,6 +14,7 @@ dotenv.config()
 
 const allowedOrigins = [
   'localhost:3000',
+  'https://script-assist-alpha.vercel.app',
   ];
 
 app.use(
@@ -25,7 +26,7 @@ app.use(
   );
 
   app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin',  'localhost:3000'); 
+    res.setHeader('Access-Control-Allow-Origin',  'https://script-assist-alpha.vercel.app'); 
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'); 
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type'); 
     res.setHeader('Access-Control-Allow-Credentials', 'true');
